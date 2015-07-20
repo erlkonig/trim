@@ -4,8 +4,6 @@
 import re
 import sqlalchemy
 
-from pprint import pprint as pp
-
 '''
 Handling of vehicle information.  This class is a bit reluctant to use,
 say, sqlalchemy's full object model in order to avoid tying the two together.
@@ -34,15 +32,24 @@ class Vehicles(object):
                                             autoload=True)
     @classmethod
     def vsn_valid(cls, vsn):
+        '''
+        Return whether a given VSN is valid, i.e. has
+        6 ASCII uppercase letters followed by 6 ASCII digits (base 10).
+        '''
         return re.match('^[A-Z]{6}[0-9]{6}$', vsn) is not None
 
     @classmethod
     def vsn_pattern_valid(cls, vsn_pattern):
+        '''
+        Return whether a given VSN pattern is valid, i.e.
+        like VSNs (see vsn_valid()) except for allowing any
+        character to be replaced with "*" as a wildcard.
+        '''
         return re.match('^[A-Z*]{6}[0-9*]{6}$', vsn) is not None
 
     @classmethod
     def vsn_match(cls, vsn, vsn_pattern):
-        '''See if a VSN and a VSN pattern match.  Inferior to in-database SQL.
+        '''See if a VSN and a VSN pattern match.
         '''
         match_strength = 0
         if cls.vsn_valid(vsn) and (len(vsn) == len(vsn_pattern)):
@@ -55,7 +62,14 @@ class Vehicles(object):
         return match_strength
 
     def search_by_vsn(self, vsn):
-        # starting with the absolutely worst non-insane approach
+        '''
+        Return a (possibly empty) list of info for all VSN patterns which
+        match a given VSN, limited to all the equally best matches if
+        more than one degree of match is availabled.
+
+        Currently this method simply does a select for the whole table
+        and goes through the patterns on the Python side.
+        '''
         sql = self.db_vehicles.select()
         rows = sql.execute()
         matches = []

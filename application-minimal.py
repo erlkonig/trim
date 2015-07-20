@@ -43,6 +43,8 @@ def json_dumps_pretty(the_object, **kwargs):
 
 
 class log(object):
+    '''A class to ease later replacement with something more sophisticated.
+    '''
     @staticmethod
     def error(fmt, *args): sys.stderr.write(('ERROR: ' + fmt + '\n') % args)
 

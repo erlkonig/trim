@@ -15,9 +15,13 @@ class TestRestVsnSearches(unittest.TestCase):
     '''Tests for VSN searches.
     '''
     def setUp(self):
+        '''Set the base URL used for tests.
+        '''
         self.url_base = 'http://127.0.0.1:5000/'
 
     def url(self, suburl):
+        '''Return the catentation of the base URL and a suburl.
+        '''
         return self.url_base + suburl
 
     def test_vsn_url_missing_arg(self):

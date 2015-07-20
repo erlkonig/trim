@@ -1,6 +1,6 @@
 # Doxyfile
 
-EXCLUDE_PATTERNS       = */virtual-python/*
+EXCLUDE_PATTERNS       = */virtual-python/* */python-virtual/*
 
 # HAVE_DOT requires graphviz to be installed.
 

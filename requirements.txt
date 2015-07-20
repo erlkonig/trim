@@ -1,6 +1,7 @@
+# note python 2.5+ is required to have sqlite.
+
 flask
 coverage
 nose
-sqlite3
 sqlalchemy
 requests   # currently only used in a tests/*

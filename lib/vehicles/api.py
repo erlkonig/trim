@@ -5,6 +5,12 @@ import json
 import lib.tools.util as lib_util
 import lib.vehicles as lib_vehicles
 
+from lib.tools.log import log
+
+'''
+REST API calls for the Vehicles backend.
+'''
+
 
 blueprint = flask.Blueprint('vehicles_api', __name__)
 
