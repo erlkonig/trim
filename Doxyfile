@@ -1,0 +1,18 @@
+# Doxyfile
+
+EXCLUDE_PATTERNS       = */virtual-python/*
+
+# HAVE_DOT requires graphviz to be installed.
+
+PROJECT_NAME           = "TrimService"
+PROJECT_BRIEF          = "TRIM Service"
+OUTPUT_DIRECTORY       = doc-doxygen
+INLINE_INHERITED_MEMB  = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+HAVE_DOT               = YES
+RECURSIVE              = YES
+INPUT_FILTER           = 
+FILTER_PATTERNS        = *.py=doxypy
+
