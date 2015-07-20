@@ -42,7 +42,7 @@ def api_search_vsn(vsn=None):
     except Exception as e:  # I wonder if a decorator could be used for this
         log.error('Unhandled exception caught for VSN %r: %r' % (vsn, e))
 
-    return lib_util.json_dumps_pretty(result), status
+    return lib_util.jsonic_by_accept_encoding(flask.request, result), status
 
 
 # vim: encoding=utf-8 sw=4 ts=4 sts=4 ai et sta

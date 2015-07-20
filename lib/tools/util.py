@@ -34,4 +34,35 @@ def json_dumps_pretty(the_object, **kwargs):
                       **dict_clone_and_update(defaults, kwargs))
 
 
+def jsonic_by_accept_encoding(request,    # a flask.request
+                              python_object,
+                              *args, **kwargs):
+    '''
+    This method supports a Accept:application/json (for a rather compact
+    JSON) or defaults to text/plain for human use.
+
+    If using the "requests" module, the request.get(...) call would need
+    this for JSON form:
+
+       headers={'Accept':'application/json'}
+
+    Curl would need:
+
+       curl -H 'Accept: application/json' ...
+    '''
+    accept_content  = request.headers.get('Accept', 'text/plain')
+    accept_encoding = request.headers.get('Accept-Encoding', 'identity')
+    text = None
+
+    if 'application/json' in accept_content:
+        text = json.dumps(python_object)
+        mimetype = 'application/json'
+    else:    # elif accept_content in text/plain
+        text = json_dumps_pretty(python_object)
+        mimetype = 'text/plain'
+
+    # Unicode non-BMP glyphs should be converted to surrogate pairs, but aren't
+    return flask.current_app.response_class(text.encode('utf-8'),
+                                            mimetype=mimetype)
+
 # vim: encoding=utf-8 sw=4 ts=4 sts=4 ai et sta

@@ -71,10 +71,30 @@ Matching a VSN string against several VSN patterns:
 Result data
 -----------
 
+Reply Format
+~~~~~~~~~~~~
+The format of the result can be controlled somewhat.  It defaults to
+text/plain and can be set to application/json when desired.  The former is
+more readable, the latter slightly more bandwidth efficient.
+
+To request application/json with curl use::
+
+   curl -H 'Accept: application/json' ...
+
+If using Flask requests' get(...) call, add the following kwarg:
+
+   headers={'Accept':'application/json'}
+   
+
+Example replies
+~~~~~~~~~~~~~~~
+
 Expected use is a VSN will be submitted and all matching patterns at the
 highest found match value returned, along with their ancilliary info from
-the database.  Here's a case where three equal-strength matches are returned:
+the database. 
 
+Return of three equal-strength matches
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 REST call::
 
    curl 'http://127.0.0.1:5000/api/vehicles/v1/search?vsn=XXRCIV077000'
@@ -111,12 +131,12 @@ Result::
         }
     ]
 
-Result (if json.dumps() is used instead of json_dumps_pretty):
+Result if application/json is requested::
 
    [{"make": "Volkswagen", "match_strength": 0, "trim_name": "2-Door with Sunroof and Navigation, DSG", "trim_id": "253909", "year": "2013", "model": "GTI", "vsn_pattern": "XXRC*V******"}, {"make": "Volkswagen", "match_strength": 0, "trim_name": "2-Door DSG", "trim_id": "253901", "year": "2013", "model": "GTI", "vsn_pattern": "XXRC*V******"}, {"make": "Volkswagen", "match_strength": 0, "trim_name": "2-Door Autobahn, DSG", "trim_id": "253913", "year": "2013", "model": "GTI", "vsn_pattern": "XXRC*V******"}]: *2.9265-[master*]⋯$;
 
-And here a case where the return is filtered down to the strongest match
-of four matches:
+Return of strongest match out of four matches
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REST call::
 
@@ -136,7 +156,8 @@ Result::
         }
     ]
 
-A case with no matches:
+Return for no matches
+^^^^^^^^^^^^^^^^^^^^^
 
 REST call::
 
@@ -146,7 +167,8 @@ Empty set result (still yields HTTP 200, though 404 is an option):
 
     []
 
-A case with an invalid VSN:
+Return for invalid VSN
+^^^^^^^^^^^^^^^^^^^^^^
 
 REST call (note the flipped letter/digit in the middle::
 
@@ -274,5 +296,4 @@ In production one would typically automate this in an application.wsgi file::
   ...
   from application import make_app
   application = make_app()
-
 
