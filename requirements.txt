@@ -1,0 +1,6 @@
+flask
+coverage
+nose
+sqlite3
+sqlalchemy
+requests   # currently only used in a tests/*
